@@ -68,7 +68,7 @@ void CmdCtl::OnBnClickedBtnRedOpen()
 	else
 	{
 		b_btnRedOpen = TRUE;
-		ChangeBmpPic(IDC_PicRedState, IDB_SwOn);
+		ChangeBmpPic(IDC_PicRedState, IDB_SwRedOn);
 		SetDlgItemText(ID_BtnRedOpen, "Close");
 	}
 }
@@ -100,7 +100,7 @@ void CmdCtl::OnBnClickedBtnBlueOpen()
 	else
 	{
 		b_btnBlueOpen = TRUE;
-		ChangeBmpPic(IDC_PicBlueState, IDB_SwOn);
+		ChangeBmpPic(IDC_PicBlueState, IDB_SwBlueOn);
 		SetDlgItemText(ID_BtnBlueOpen, "Close");
 	}
 }

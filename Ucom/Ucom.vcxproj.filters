@@ -323,6 +323,12 @@
     <Image Include="res\On.bmp">
       <Filter>Resource</Filter>
     </Image>
+    <Image Include="res\SwRedOn.bmp">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="res\SwBlueOn.bmp">
+      <Filter>Resource</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\Ucom.rc2">

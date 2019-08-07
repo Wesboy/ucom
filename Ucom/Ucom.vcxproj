@@ -112,6 +112,8 @@
     <Image Include="res\Icon.ico" />
     <Image Include="res\off.bmp" />
     <Image Include="res\On.bmp" />
+    <Image Include="res\SwBlueOn.bmp" />
+    <Image Include="res\SwRedOn.bmp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\Ucom.rc2" />
