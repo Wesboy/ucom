@@ -186,6 +186,10 @@
     <ClInclude Include="src\targetver.h">
       <Filter>MFC</Filter>
     </ClInclude>
+    <ClInclude Include="CmdCtl.h">
+      <Filter>Dialog\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dialog\DataWatch.cpp">
@@ -304,6 +308,9 @@
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp">
       <Filter>MFC</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialog\CmdCtl.cpp">
+      <Filter>Dialog\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

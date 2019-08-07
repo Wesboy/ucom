@@ -16,6 +16,7 @@
 #include "UartDlg.h"
 #include "NetDlg.h"
 #include "Splitter.h"
+#include "CmdCtl.h"
 
 
 //typedef  AsyncSendX* AsyncSendX;
@@ -38,9 +39,14 @@ public:
 	const int rxFlashPeriod = 40;
 
 	bool isNewLineSend;
+	bool bSizeChange;
 	bool isDispHex, isSendHex, isDispRx, isRxFullClc,isCmdMode;
 	UINT rxCnt, txCnt;
 	int limitBytes;
+	long iHeight, iWight;
+	int m_nWidth, m_nHeight;
+	float m_Multiple_width,m_Mutiple_heith;
+
 
 	void LoadRegConfig();
 	void WriteRegData(void);
@@ -83,6 +89,7 @@ private:
 
 	CUartDlg UartDlg;
 	CNetDlg NetDlg;
+	CmdCtl CmdDlg;
 
 	UINT widthEx, heightDlgMin, widthDlgMin;	//收缩扩展区的宽度
 	CSplitter hzSplitter;
@@ -137,6 +144,7 @@ public:
 	afx_msg void OnBnClickedCkbcmd();
 
 	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void ReSize(int nID);
 	afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
 	afx_msg LRESULT OnMyReceiveMsg(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnSelchangeTabsrc(NMHDR *pNMHDR, LRESULT *pResult);

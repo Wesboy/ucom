@@ -143,7 +143,10 @@ BOOL CUcomDlg::OnInitDialog()
 	GetDlgItem(IDC_GrpRS)->GetWindowRect(&rect2);
 	rect1.left = (rect2.right + rect1.left) / 2 + 2;
 
-	GetWindowRect(&rect2);
+	GetWindowRect(&rect2);//初始窗口大小
+	iWight = rect2.right-rect2.left;
+	iHeight = rect2.bottom-rect2.top;
+
 	rect1.right = rect2.right;
 	widthEx = rect1.Width();
 	heightDlgMin = rect1.Height() + 55; // 补偿55
@@ -156,9 +159,40 @@ BOOL CUcomDlg::OnInitDialog()
 	//修改状态值人工将界面设置为极简模式
 	isLarge = false;
 
+	//计算分辨率
+	m_nWidth = GetSystemMetrics(SM_CXSCREEN);
+	m_nHeight = GetSystemMetrics(SM_CYSCREEN);
+
+	//计算放大倍数
+	m_Multiple_width = float(m_nWidth) / float(iWight);
+	m_Mutiple_heith = float(m_nHeight) / float(iHeight);
+	bSizeChange = FALSE;
+
 	OnBnClickedBtnwinsize();
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
+}
+
+void CUcomDlg::ReSize(int nID)
+{
+	CRect Rect;
+	GetDlgItem(nID)->GetWindowRect(Rect);
+	ScreenToClient(Rect);
+	//计算控件左上角点
+	CPoint OldTLPoint, TLPoint;
+	OldTLPoint = Rect.TopLeft();
+	TLPoint.x = long(OldTLPoint.x * m_Multiple_width);
+	TLPoint.y = long(OldTLPoint.y * m_Mutiple_heith);
+
+	//计算控件右下角点
+	CPoint OldBRPoint, BRPoint;
+	OldBRPoint = Rect.BottomRight();
+	BRPoint.x = long(OldBRPoint.x * m_Multiple_width);
+	BRPoint.y = long(OldBRPoint.y * m_Mutiple_heith);
+	//移动控件到新矩形
+
+	Rect.SetRect(TLPoint, BRPoint);
+	GetDlgItem(nID)->MoveWindow(Rect, TRUE);
 }
 
 // 如果向对话框添加最小化按钮，则需要下面的代码
@@ -598,12 +632,13 @@ void CUcomDlg::InitTabEx(void)
 	pTab->InsertItem(1, "编码解码");
 	pTab->InsertItem(2, "接收监视");
 	pTab->InsertItem(3, "发送助手");
+	pTab->InsertItem(4, "指令控制");
 
 	GraphDlg.Create(IDD_GRAPH, pTab);
 	pTab->GetClientRect(&rect);
 	rect.top += 27;
 	GraphDlg.MoveWindow(&rect);
-	GraphDlg.ShowWindow(true);
+	GraphDlg.ShowWindow(false);
 
 	EncoderDlg.Create(IDD_ENCODER, pTab);
 	pTab->GetClientRect(&rect);
@@ -622,6 +657,15 @@ void CUcomDlg::InitTabEx(void)
 	rect.top += 27;
 	MultiSendDlg.MoveWindow(&rect);
 	MultiSendDlg.ShowWindow(false);
+
+
+	CmdDlg.Create(IDD_CMDCTL, pTab);
+	pTab->GetClientRect(&rect);
+	rect.top += 27;
+	CmdDlg.MoveWindow(&rect);
+	CmdDlg.ShowWindow(true);
+
+	pTab->SetCurSel(4);
 }
 
 //初始化数据源选项卡
@@ -685,24 +729,35 @@ void CUcomDlg::OnSelchangeTabex(NMHDR *pNMHDR, LRESULT *pResult)
 		EncoderDlg.ShowWindow(false);
 		DataWatchDlg.ShowWindow(false);
 		MultiSendDlg.ShowWindow(false);
+		CmdDlg.ShowWindow(false);
 		break;
 	case 1:
 		GraphDlg.ShowWindow(false);
 		EncoderDlg.ShowWindow(true);
 		DataWatchDlg.ShowWindow(false);
 		MultiSendDlg.ShowWindow(false);
+		CmdDlg.ShowWindow(false);
 		break; 
 	case 2:
 		GraphDlg.ShowWindow(false);
 		EncoderDlg.ShowWindow(false);
 		DataWatchDlg.ShowWindow(true);
 		MultiSendDlg.ShowWindow(false);
+		CmdDlg.ShowWindow(false);
 		break;
 	case 3:
 		GraphDlg.ShowWindow(false);
 		EncoderDlg.ShowWindow(false);
 		DataWatchDlg.ShowWindow(false);
 		MultiSendDlg.ShowWindow(true);
+		CmdDlg.ShowWindow(false);
+		break;
+	case 4:
+		GraphDlg.ShowWindow(false);
+		EncoderDlg.ShowWindow(false);
+		DataWatchDlg.ShowWindow(false);
+		MultiSendDlg.ShowWindow(false);
+		CmdDlg.ShowWindow(true);
 		break;
 	default:
 		break;
@@ -861,8 +916,30 @@ void CUcomDlg::OnSize(UINT nType, int cx, int cy)
 		return;
 	}
 
+	if (0) //如果确定oninitdlg已经调用完毕.
+	{
+		ReSize(IDC_RichRx);
+		ReSize(IDC_EditTxData);
+		ReSize(IDC_GrpRS);
 
-	if (nType == SIZE_RESTORED)
+		ReSize(IDC_TABEx);
+
+		ReSize(IDC_BtnSendFile);
+		ReSize(IDC_BtnToolBox);
+		ReSize(IDC_BtnHelp);
+		ReSize(IDC_BtnSend);
+		ReSize(IDC_BtnWinSize);
+		ReSize(IDC_TxtRecvCnt);
+		ReSize(IDC_TxtSendCnt);
+
+		ReSize(IDC_BtnSplitter);
+
+		//恢复放大倍数，并保存 (确保还原时候能够还原到原来的大小)
+
+		m_Multiple_width = float(1) / m_Multiple_width;
+		m_Mutiple_heith = float(1) / m_Mutiple_heith;
+	}
+	else if (nType == SIZE_RESTORED)
 	{
 		int dX = cx - lastCx;
 		int dY = cy - lastCy;
