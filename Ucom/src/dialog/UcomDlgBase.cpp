@@ -252,8 +252,11 @@ void CUcomDlg::OnBnClickedBtnfont()
 
 
 
-// 控件ID为nID向右改变形状，isEnlarge=true是向右增加x(可为负数)像素，否则是以右边界移动
-void CUcomDlg::ChangeItemSize(int nID, int x, int y, bool isEnlarge)
+// 控件ID为nID向右改变形状，isEnlarge=1是向右增加x(可为负数)像素，
+						//  isEnlarge=2是以右边界移动
+						//  isEnlarge=3是以左边界移动，不改变大小
+
+void CUcomDlg::ChangeItemSize(int nID, int x, int y, int isEnlarge)
 {
 	CWnd *pWnd;
 	pWnd = GetDlgItem(nID);
@@ -267,16 +270,28 @@ void CUcomDlg::ChangeItemSize(int nID, int x, int y, bool isEnlarge)
 		ScreenToClient(&rec);   //将控件大小转换为在对话框中的区域坐标
 		width = rec.Width();
 		height = rec.Height();
-		if (isEnlarge) {
+		if (isEnlarge == 1) {
 			rec.right = rec.right + x;
 			rec.bottom = rec.bottom + y;
 		}
-		else {
+		else if (isEnlarge == 2){
 			rec.left = rec.left + x;
 			rec.top = rec.top + y;
 
 			rec.right = rec.left + width;
 			rec.bottom = rec.top + height;
+		}
+		else if (isEnlarge == 3) //上下移动
+		{
+			rec.top = rec.top + y;
+			rec.bottom = rec.bottom + y;
+
+		}
+		else if (isEnlarge == 4)
+		{
+			rec.right = rec.right + x;
+			rec.top = rec.top + y;
+			rec.bottom = rec.bottom + y;
 		}
 		pWnd->MoveWindow(rec);//伸缩控件
 	}

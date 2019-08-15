@@ -79,7 +79,7 @@ private:
 	bool isLarge;
 	//面板是否处于工作状态
 	bool isWorking;
-	void ChangeItemSize(int nID, int x, int y, bool isEnlarge);
+	void ChangeItemSize(int nID, int x, int y, int isEnlarge);
 	int MaxWndHeight;
 
 	CGraphDlg GraphDlg;

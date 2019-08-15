@@ -20,6 +20,7 @@ CUcomDlg::CUcomDlg(CWnd* pParent /*=NULL*/)
 : CDialog(CUcomDlg::IDD, pParent)
 , DataRx(), DataTx()
 , MultiSendDlg(this, &uBase)
+, CmdDlg(this, &uBase)
 {
 	//{{AFX_DATA_INIT(CUcomDlg)
 	//}}AFX_DATA_INIT
@@ -916,47 +917,26 @@ void CUcomDlg::OnSize(UINT nType, int cx, int cy)
 		return;
 	}
 
-	if (0) //如果确定oninitdlg已经调用完毕.
+	if (nType == SIZE_RESTORED || nType == SIZE_MAXIMIZED)
 	{
-		ReSize(IDC_RichRx);
-		ReSize(IDC_EditTxData);
-		ReSize(IDC_GrpRS);
 
-		ReSize(IDC_TABEx);
-
-		ReSize(IDC_BtnSendFile);
-		ReSize(IDC_BtnToolBox);
-		ReSize(IDC_BtnHelp);
-		ReSize(IDC_BtnSend);
-		ReSize(IDC_BtnWinSize);
-		ReSize(IDC_TxtRecvCnt);
-		ReSize(IDC_TxtSendCnt);
-
-		ReSize(IDC_BtnSplitter);
-
-		//恢复放大倍数，并保存 (确保还原时候能够还原到原来的大小)
-
-		m_Multiple_width = float(1) / m_Multiple_width;
-		m_Mutiple_heith = float(1) / m_Mutiple_heith;
-	}
-	else if (nType == SIZE_RESTORED)
-	{
 		int dX = cx - lastCx;
 		int dY = cy - lastCy;
+		ChangeItemSize(IDC_RichRx, dX, dY, 1);
+		ChangeItemSize(IDC_EditTxData, dX, dY, 4);
+		ChangeItemSize(IDC_GrpRS, dX, dY, 1);
 
-		ChangeItemSize(IDC_RichRx, dX, 0, true);
-		ChangeItemSize(IDC_EditTxData, dX, dY, true);
-		ChangeItemSize(IDC_GrpRS, dX, dY, true);
+		ChangeItemSize(IDC_BtnSplitter, dX, dY, 3);
+		ChangeItemSize(IDC_TxtRecvCnt, dX, dY, 3);
+		ChangeItemSize(IDC_TxtSendCnt, dX, dY, 3);
 
-		ChangeItemSize(IDC_TABEx, dX, 0, false);
+		ChangeItemSize(IDC_TABEx, dX, 0, 2);
 
-		ChangeItemSize(IDC_BtnSendFile, dX, dY, false);
-		ChangeItemSize(IDC_BtnToolBox, dX, dY, false);
-		ChangeItemSize(IDC_BtnHelp, dX, dY, false);
-		ChangeItemSize(IDC_BtnSend, dX, dY, false);
-		ChangeItemSize(IDC_BtnWinSize, dX, dY, false);
-
-		ChangeItemSize(IDC_BtnSplitter, dX, 0, true);
+		ChangeItemSize(IDC_BtnSendFile, dX, dY, 2);
+		ChangeItemSize(IDC_BtnToolBox, dX, dY, 2);
+		ChangeItemSize(IDC_BtnHelp, dX, dY, 2);
+		ChangeItemSize(IDC_BtnSend, dX, dY, 2);
+		ChangeItemSize(IDC_BtnWinSize, dX, dY, 2);
 
 
 		hzSplitter.SetBottomLimit(dY);

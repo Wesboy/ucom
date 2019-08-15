@@ -10,9 +10,10 @@
 
 IMPLEMENT_DYNAMIC(CmdCtl, CDialog)
 
-CmdCtl::CmdCtl(CWnd *pParent /*=NULL*/)
+CmdCtl::CmdCtl(CWnd *pParent, UcomBase **mbase)
 	: CDialog(IDD_CMDCTL, pParent)
 {
+	cuBase = *mbase;
 }
 
 CmdCtl::~CmdCtl()
@@ -71,6 +72,7 @@ void CmdCtl::OnBnClickedBtnRedOpen()
 		ChangeBmpPic(IDC_PicRedState, IDB_SwRedOn);
 		SetDlgItemText(ID_BtnRedOpen, "Close");
 	}
+	SetLedOn(I_RED, b_btnRedOpen);
 }
 
 void CmdCtl::OnBnClickedBtnGreenOpen()
@@ -87,6 +89,7 @@ void CmdCtl::OnBnClickedBtnGreenOpen()
 		ChangeBmpPic(IDC_PicGreenState, IDB_SwOn);
 		SetDlgItemText(ID_BtnGreenOpen, "Close");
 	}
+	SetLedOn(I_GREEN, b_btnGreenOpen);
 }
 
 void CmdCtl::OnBnClickedBtnBlueOpen()
@@ -103,6 +106,7 @@ void CmdCtl::OnBnClickedBtnBlueOpen()
 		ChangeBmpPic(IDC_PicBlueState, IDB_SwBlueOn);
 		SetDlgItemText(ID_BtnBlueOpen, "Close");
 	}
+	SetLedOn(I_BLUE, b_btnBlueOpen);
 }
 
 void CmdCtl::OnNMCustomRedPwmDraw(NMHDR *pNMHDR, LRESULT *pResult)
@@ -116,7 +120,7 @@ void CmdCtl::OnNMCustomRedPwmDraw(NMHDR *pNMHDR, LRESULT *pResult)
 
 void CmdCtl::OnNMCustomGreenPwmDraw(NMHDR *pNMHDR, LRESULT *pResult)
 {
-	int nPos = m_GreenPwm.GetPos();
+	int nPos = m_GreenPwm.GetNumTics();
 	CString str;
 
 	str.Format("%d", nPos);
@@ -142,4 +146,66 @@ void CmdCtl::ChangeBmpPic(int PicCtrlID, unsigned short nPicID)
 	hBmp = (HBITMAP)bitmap.GetSafeHandle(); // 获取bitmap加载位图的句柄
 
 	pStatic->SetBitmap(hBmp); // 设置图片控件
+}
+
+void CmdCtl::SetLedOn(unsigned short iColor, bool bOn)
+{
+	char buf[8];
+
+	switch (iColor)
+	{
+	case I_RED:
+		buf[1] = (char)0xB1;
+		break;
+	case I_GREEN:
+		buf[1] = (char)0xB2;
+		break;
+	case I_BLUE:
+		buf[1] = (char)0xB3;
+		break;
+	default:
+		return;
+	}
+
+	if (bOn)
+		buf[2] = 0x01;
+	else
+		buf[2] = 0x0;
+
+	buf[0] = 3; //cmdlen
+	SendCmdToDevice(buf);
+}
+
+void CmdCtl::SendCmdToDevice(char *buffer)
+{
+	CString strTmp;
+	char buf[16] = {0};
+	char iCmdlen = buffer[0];
+	char checkBit;
+	char i;
+
+	if(iCmdlen > 0 && iCmdlen < 14)
+	{
+		buf[0] = (char)0x55;
+		buf[1] = (char)0xaa;
+		checkBit = buf[0] + buf[1];
+
+		for(i = 0; i < iCmdlen; i++)
+		{
+			buf[i+2] = buffer[i];
+			checkBit += buf[i+2];
+		}
+		buf[i+2] = checkBit;
+	}
+
+	strTmp.Format("%s\r\n", buf);
+	UnblockSend(strTmp);
+}
+
+int CmdCtl::UnblockSend(const CString &dataStr)
+{
+	if (cuBase->IsRWable() == false)
+		return -1;
+
+	return cuBase->AsyncSend(dataStr);
 }
