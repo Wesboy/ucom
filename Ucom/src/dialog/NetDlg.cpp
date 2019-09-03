@@ -367,6 +367,50 @@ int CNetDlg::AsyncSend(const CString & dataStr)
 	return 0;
 }
 
+
+int CNetDlg::AsyncSendBuf(unsigned char *buf, unsigned int len)
+{
+	if (!mSocket.IsScoketOpen())
+		return -1;
+	if (typeSel != NETDLG_UDP) {
+		if (curSender == -1) {
+			// TCP client
+			return mSocket.Send((LPCTSTR)buf, len);
+		}
+		else
+		{
+			// TCP server 客户端是否有效
+			if (mSocket.nClient.GetSize() >= curSender)
+			{
+				if (curSender == 0)
+				{
+					// 发送给全部连接的client
+					int cnt = 0;
+					for (int i = 1; i <= mSocket.nClient.GetSize(); i++)
+					{
+						cnt += mSocket.nClient[i - 1]->Send((LPCTSTR)buf, len);
+					}
+					return cnt;
+				}
+				else
+				{
+					return mSocket.nClient[curSender - 1]->Send((LPCTSTR)buf, len);
+				}
+			}
+			else
+				return -1;
+		}
+	}
+	else
+	{
+		CString strIP;
+		int nPortServer = GetDlgItemInt(NET_IDC_EDT_PORT_SER);
+		GetDstIPStr(strIP);
+		return mSocket.SendTo((LPCTSTR)buf, len, nPortServer, strIP);
+	}
+	return 0;
+}
+
 int CNetDlg::AsyncRead(CString & dataStr, CString & infoStr, WPARAM wParam, LPARAM lParam)
 {
 	if (!mSocket.IsScoketOpen())

@@ -41,6 +41,12 @@ public:
 			return -1;
 		return mUart.UnblockSend(dataStr);
 	}
+	int AsyncSendBuf(unsigned char *buf, unsigned int len)
+	{
+		if (!isWorking)
+			return -1;
+		return mUart.UnblockSendBuf(buf, len);
+	}
 	int AsyncRead(CString &dataStr, CString & infoStr, WPARAM wParam, LPARAM lParam) {
 		if (!isWorking)
 			return -1;

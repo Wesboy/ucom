@@ -11,10 +11,7 @@ public:
 	CmdCtl::CmdCtl(CWnd *pParent, UcomBase **mbase); // 标准构造函数
 	virtual ~CmdCtl();
 
-// 对话框数据
-#ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_CMDCTL };
-#endif
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
@@ -35,13 +32,14 @@ public:
 	CSliderCtrl m_redPwm;
 	CSliderCtrl m_GreenPwm;
 	CSliderCtrl m_BluePwm;
-	UcomBase *cuBase;
+	UcomBase **cuBase;
 
 	virtual BOOL OnInitDialog();
 	void ChangeBmpPic(int PicCtrlID, unsigned short nPicID);
 	void SendCmdToDevice(char *buffer);
 	void SetLedOn(unsigned short iColor, bool bOn);
 	int UnblockSend(const CString &dataStr);
+	int SendBuf(unsigned char *buf, unsigned int len);
 
 	afx_msg void OnBnClickedBtnRedOpen();
 	afx_msg void OnBnClickedBtnGreenOpen();

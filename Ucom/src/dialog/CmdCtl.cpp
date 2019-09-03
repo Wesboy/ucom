@@ -9,11 +9,11 @@
 // CmdCtl ¶Ô»°¿ò
 
 IMPLEMENT_DYNAMIC(CmdCtl, CDialog)
-
+//IDD_CMDCTL
 CmdCtl::CmdCtl(CWnd *pParent, UcomBase **mbase)
-	: CDialog(IDD_CMDCTL, pParent)
+	: CDialog(CmdCtl::IDD, pParent)
 {
-	cuBase = *mbase;
+	cuBase = mbase;
 }
 
 CmdCtl::~CmdCtl()
@@ -179,16 +179,16 @@ void CmdCtl::SetLedOn(unsigned short iColor, bool bOn)
 void CmdCtl::SendCmdToDevice(char *buffer)
 {
 	CString strTmp;
-	char buf[16] = {0};
+	unsigned char buf[16] = {0};
 	char iCmdlen = buffer[0];
-	char checkBit;
-	char i;
+	unsigned char checkBit = 0;
+	unsigned char i;
 
 	if(iCmdlen > 0 && iCmdlen < 14)
 	{
 		buf[0] = (char)0x55;
 		buf[1] = (char)0xaa;
-		checkBit = buf[0] + buf[1];
+		//checkBit = buf[0] + buf[1];
 
 		for(i = 0; i < iCmdlen; i++)
 		{
@@ -199,13 +199,22 @@ void CmdCtl::SendCmdToDevice(char *buffer)
 	}
 
 	strTmp.Format("%s\r\n", buf);
-	UnblockSend(strTmp);
+	//UnblockSend(strTmp);
+	SendBuf(buf, i+3);
 }
 
 int CmdCtl::UnblockSend(const CString &dataStr)
 {
-	if (cuBase->IsRWable() == false)
+	if ((*cuBase)->IsRWable() == false)
 		return -1;
 
-	return cuBase->AsyncSend(dataStr);
+	return (*cuBase)->AsyncSend(dataStr);
+}
+
+int CmdCtl::SendBuf(unsigned char *buf, unsigned int len)
+{
+	if ((*cuBase)->IsRWable() == false)
+		return -1;
+
+	return (*cuBase)->AsyncSendBuf(buf, len);
 }

@@ -371,3 +371,39 @@ int iUart::UnblockSend(const CString &dataStr)
 	}
 	return dwLength;
 }
+
+int iUart::UnblockSendBuf(unsigned char *buf, unsigned int len)
+{
+	BOOL bWriteStatus;
+	COMSTAT ComStat;
+	DWORD dwErrorFlags, dwLength;
+
+	ClearCommError(hUartCom, &dwErrorFlags, &ComStat);
+	if (dwErrorFlags > 0)
+	{
+		TRACE("Unblock Write Failed\n");
+		PurgeComm(hUartCom, PURGE_TXABORT | PURGE_TXCLEAR);
+		return 0;
+	}
+	m_osWrite.Offset = 0;
+
+	//dwLength = dataStr.GetAllocLength();
+	//append方式添加就得GetLength才能的出来正确计数（GetAllocLength有bug），好像GetLength不是以'\0'来算的
+	dwLength = len;
+	if(len < 0)
+		return 0;
+
+	bWriteStatus = WriteFile(hUartCom, (LPCTSTR)buf, dwLength, &dwLength, &m_osWrite);
+
+	if (!bWriteStatus)
+	{
+		if (GetLastError() == ERROR_IO_PENDING)
+		{
+			//如果重叠操作未完成,等待直到操作完成
+			GetOverlappedResult(hUartCom, &m_osWrite, &dwLength, TRUE);
+		}
+		else
+			dwLength = 0;
+	}
+	return dwLength;
+}

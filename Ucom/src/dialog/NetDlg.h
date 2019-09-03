@@ -54,6 +54,7 @@ public:
 	void OpenSocket(void);
 
 	int AsyncSend(const CString &dataStr);
+	int AsyncSendBuf(unsigned char *buf, unsigned int len);
 	int AsyncRead(CString &dataStr, CString & infoStr, WPARAM wParam, LPARAM lParam);
 	bool IsRWable(void) {
 		return mSocket.IsScoketOpen();

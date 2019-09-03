@@ -75,7 +75,7 @@ void CUcomDlg::OnBnClickedBtnclearall()
 //∞Ô÷˙–≈œ¢
 void CUcomDlg::OnBnClickedBtnhelp()
 {
-	::ShellExecute(NULL, NULL, "https://github.com/creaink/ucom", NULL, NULL, SW_SHOWNORMAL);
+	::ShellExecute(NULL, NULL, "https://github.com/Wesboy/ucom", NULL, NULL, SW_SHOWNORMAL);
 }
 
 

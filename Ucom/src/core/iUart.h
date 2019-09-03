@@ -51,6 +51,7 @@ public:
 
 	int UnblockRead(CString &dataStr);
 	int UnblockSend(const CString &dataStr);
+	int UnblockSendBuf(unsigned char *buf, unsigned int len);
 
 	void SetParentHWND(HWND pParent, HWND pTopParent) {
 		hwParent = pParent;

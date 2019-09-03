@@ -43,6 +43,7 @@ public:
 
 	}
 	virtual int AsyncSend(const CString &dataStr) = 0;
+	virtual int AsyncSendBuf(unsigned char *buf, unsigned int len) = 0;
 	virtual int AsyncRead(CString &dataStr, CString & infoStr, WPARAM wParam, LPARAM lParam) = 0;
 	virtual bool IsRWable (void) = 0;
 };
