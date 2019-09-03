@@ -36,8 +36,9 @@ public:
 
 	virtual BOOL OnInitDialog();
 	void ChangeBmpPic(int PicCtrlID, unsigned short nPicID);
-	void SendCmdToDevice(char *buffer);
+	void SendCmdToDevice(unsigned char *buffer);
 	void SetLedOn(unsigned short iColor, bool bOn);
+	void SetLedPWM(unsigned short iColor, unsigned int iPwmVal);
 	int UnblockSend(const CString &dataStr);
 	int SendBuf(unsigned char *buf, unsigned int len);
 

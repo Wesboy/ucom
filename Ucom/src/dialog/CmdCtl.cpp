@@ -112,27 +112,33 @@ void CmdCtl::OnBnClickedBtnBlueOpen()
 void CmdCtl::OnNMCustomRedPwmDraw(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	int nPos = m_redPwm.GetPos();
+	nPos = (nPos * 1024) / 100;
 	CString str;
 
 	str.Format("%d", nPos);
+	SetLedPWM(I_RED, nPos);
 	SetDlgItemText(IDC_ShowRed, str);
 }
 
 void CmdCtl::OnNMCustomGreenPwmDraw(NMHDR *pNMHDR, LRESULT *pResult)
 {
-	int nPos = m_GreenPwm.GetNumTics();
+	int nPos = m_GreenPwm.GetPos();
+	nPos = (nPos * 1024) / 100;
 	CString str;
 
 	str.Format("%d", nPos);
+	SetLedPWM(I_GREEN, nPos);
 	SetDlgItemText(IDC_ShowGreen, str);
 }
 
 void CmdCtl::OnNMCustomBluePwmDraw(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	int nPos = m_BluePwm.GetPos();
+	nPos = (nPos * 1024) / 100;
 	CString str;
 
 	str.Format("%d", nPos);
+	SetLedPWM(I_BLUE, nPos);
 	SetDlgItemText(IDC_ShowBlue, str);
 }
 
@@ -150,18 +156,18 @@ void CmdCtl::ChangeBmpPic(int PicCtrlID, unsigned short nPicID)
 
 void CmdCtl::SetLedOn(unsigned short iColor, bool bOn)
 {
-	char buf[8];
+	unsigned char buf[8] = {0};
 
 	switch (iColor)
 	{
 	case I_RED:
-		buf[1] = (char)0xB1;
+		buf[1] = (unsigned char)0xB1;
 		break;
 	case I_GREEN:
-		buf[1] = (char)0xB2;
+		buf[1] = (unsigned char)0xB2;
 		break;
 	case I_BLUE:
-		buf[1] = (char)0xB3;
+		buf[1] = (unsigned char)0xB3;
 		break;
 	default:
 		return;
@@ -169,14 +175,36 @@ void CmdCtl::SetLedOn(unsigned short iColor, bool bOn)
 
 	if (bOn)
 		buf[2] = 0x01;
-	else
-		buf[2] = 0x0;
 
 	buf[0] = 3; //cmdlen
 	SendCmdToDevice(buf);
 }
 
-void CmdCtl::SendCmdToDevice(char *buffer)
+void CmdCtl::SetLedPWM(unsigned short iColor, unsigned int iPwmVal)
+{
+	unsigned char buf[8] = {0};
+
+	switch (iColor)
+	{
+	case I_RED:
+		buf[1] = (unsigned char)0xB4;
+		break;
+	case I_GREEN:
+		buf[1] = (unsigned char)0xB5;
+		break;
+	case I_BLUE:
+		buf[1] = (unsigned char)0xB6;
+		break;
+	default:
+		return;
+	}
+	buf[2] = iPwmVal&0xFF;
+	buf[3] = iPwmVal >> 8;
+	buf[0] = 4; //cmdlen
+	SendCmdToDevice(buf);
+}
+
+void CmdCtl::SendCmdToDevice(unsigned char *buffer)
 {
 	CString strTmp;
 	unsigned char buf[16] = {0};
@@ -198,8 +226,6 @@ void CmdCtl::SendCmdToDevice(char *buffer)
 		buf[i+2] = checkBit;
 	}
 
-	strTmp.Format("%s\r\n", buf);
-	//UnblockSend(strTmp);
 	SendBuf(buf, i+3);
 }
 
