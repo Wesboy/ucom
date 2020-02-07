@@ -15,7 +15,6 @@
 #include "UBase.h"
 #include "UartDlg.h"
 #include "NetDlg.h"
-#include "Splitter.h"
 #include "CmdCtl.h"
 
 
@@ -92,7 +91,6 @@ private:
 	CmdCtl CmdDlg;
 
 	UINT widthEx, heightDlgMin, widthDlgMin;	//收缩扩展区的宽度
-	CSplitter hzSplitter;
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支持
 

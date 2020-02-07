@@ -213,9 +213,6 @@
     <ClCompile Include="src\dialog\SendFile.cpp">
       <Filter>Dialog\src</Filter>
     </ClCompile>
-    <ClCompile Include="src\dialog\Splitter.cpp">
-      <Filter>Dialog\src</Filter>
-    </ClCompile>
     <ClCompile Include="src\dialog\UartDlg.cpp">
       <Filter>Dialog\src</Filter>
     </ClCompile>

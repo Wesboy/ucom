@@ -76,7 +76,6 @@
     <ClCompile Include="src\dialog\MultiSend.cpp" />
     <ClCompile Include="src\dialog\NetDlg.cpp" />
     <ClCompile Include="src\dialog\SendFile.cpp" />
-    <ClCompile Include="src\dialog\Splitter.cpp" />
     <ClCompile Include="src\dialog\UartDlg.cpp" />
     <ClCompile Include="src\dialog\Ucom.cpp" />
     <ClCompile Include="src\dialog\UcomDlg.cpp" />
@@ -125,20 +124,20 @@
     <ProjectGuid>{2F3CABBB-B51B-43EB-A7DE-BEB235410806}</ProjectGuid>
     <RootNamespace>Ucom</RootNamespace>
     <Keyword>MFCProj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>NotSet</CharacterSet>
     <UseOfMfc>Static</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>NotSet</CharacterSet>
     <UseOfMfc>Static</UseOfMfc>
@@ -160,7 +159,7 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Output\Bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Output\Obj\$(Configuration)\</IntDir>
-    <IncludePath>C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\crt\src\concrt;$(IncludePath)</IncludePath>
+    <IncludePath>F:\MyWork\update_app\Ucom\src;C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\crt\src\concrt;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

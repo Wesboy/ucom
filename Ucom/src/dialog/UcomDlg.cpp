@@ -112,15 +112,6 @@ BOOL CUcomDlg::OnInitDialog()
 	rxCnt = 0;
 	txCnt = 0;
 
-	//窗口分隔按键初始化
-	hzSplitter.SubclassDlgItem(IDC_BtnSplitter, this);
-	hzSplitter.SetType(CS_HORZ);
-
-	hzSplitter.AddToTopOrLeftCtrls(IDC_RichRx);
-	hzSplitter.AddToBottomOrRightCtrls(IDC_EditTxData);
-	hzSplitter.AddToBottomOrRightCtrls(IDC_TxtSendCnt, SPF_TOP);
-	hzSplitter.AddToBottomOrRightCtrls(IDC_TxtRecvCnt, SPF_TOP);
-
 	// 数据源子窗口初始化
 	NetDlg.SethwTopParent(GetSafeHwnd());
 	UartDlg.SethwTopParent(GetSafeHwnd());
@@ -151,9 +142,6 @@ BOOL CUcomDlg::OnInitDialog()
 	rect1.right = rect2.right;
 	widthEx = rect1.Width();
 	heightDlgMin = rect1.Height() + 55; // 补偿55
-
-	GetDlgItem(IDC_BtnSplitter)->GetWindowRect(&rect2);
-	widthDlgMin = rect2.left + 120; // 补偿120
 
 	GetDlgItem(IDC_EditTxData)->GetWindowRect(&rect2);
 	LargerMode = 0;
@@ -926,7 +914,6 @@ void CUcomDlg::OnSize(UINT nType, int cx, int cy)
 		ChangeItemSize(IDC_EditTxData, dX, dY, 4);
 		ChangeItemSize(IDC_GrpRS, dX, dY, 1);
 
-		ChangeItemSize(IDC_BtnSplitter, dX, dY, 3);
 		ChangeItemSize(IDC_TxtRecvCnt, dX, dY, 3);
 		ChangeItemSize(IDC_TxtSendCnt, dX, dY, 3);
 
@@ -938,8 +925,6 @@ void CUcomDlg::OnSize(UINT nType, int cx, int cy)
 		ChangeItemSize(IDC_BtnSend, dX, dY, 2);
 		ChangeItemSize(IDC_BtnWinSize, dX, dY, 2);
 
-
-		hzSplitter.SetBottomLimit(dY);
 		//step=1;
 	}
 	// 窗口最小化避免
