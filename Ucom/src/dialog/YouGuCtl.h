@@ -18,9 +18,12 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
+
+	CString strFilePath;
 	bool b_btnUpdate;
 
 	UcomBase **cuBase;
+	void AppendLog(CString str);
 
 	virtual BOOL OnInitDialog();
 	void SendEarphoneCtl(void);
@@ -29,4 +32,5 @@ public:
 	int SendBuf(unsigned char *buf, unsigned int len);
 
 	afx_msg void OnBnClickedUpdate();
+	afx_msg void OnBnClickedbtnloadfile();
 };

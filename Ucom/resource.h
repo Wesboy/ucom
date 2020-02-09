@@ -170,6 +170,9 @@
 #define IDC_PicGreenState               1155
 #define IDC_PicBlueState                1157
 #define ID_Update                       1158
+#define IDC_btnLoadFile                 1161
+#define IDC_UpdateLog                   1162
+#define IDC_UpdateBar                   1163
 #define ID_MeuCalc                      32776
 #define ID_MeuDevManger                 32777
 #define ID_MeuNotepad                   32778
@@ -183,7 +186,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        153
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1161
+#define _APS_NEXT_CONTROL_VALUE         1164
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
