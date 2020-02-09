@@ -27,6 +27,7 @@ public:
 
 	virtual BOOL OnInitDialog();
 	void SendEarphoneCtl(void);
+	void StartUpdate(void);
 	void SendCmdToDevice(unsigned char *buffer);
 	int UnblockSend(const CString &dataStr);
 	int SendBuf(unsigned char *buf, unsigned int len);

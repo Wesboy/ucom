@@ -50,19 +50,22 @@ void YouGuCtl::SendEarphoneCtl(void)
 }
 // YouGuCtl 消息处理程序
 
+void YouGuCtl::StartUpdate(void)
+{
+	unsigned char cmd[] = { 0x4, 0x80, 0x02, 0x01, 0x02};
+
+	SendCmdToDevice(cmd);
+} 
+
 
 void YouGuCtl::OnBnClickedUpdate()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	if (b_btnUpdate)
-	{
-		b_btnUpdate = FALSE;
-	}
-	else
-	{
-		b_btnUpdate = TRUE;
-		SendEarphoneCtl();
-	}
+	//1 start update proc
+	//2 send update file 
+	//3 send end update
+	//SendEarphoneCtl();
+	StartUpdate();
 }
 
 void YouGuCtl::SendCmdToDevice(unsigned char *buffer)
@@ -80,12 +83,12 @@ void YouGuCtl::SendCmdToDevice(unsigned char *buffer)
 		buf[2] = iCmdlen + 1;
 		checkBit = buf[2];
 
-		for (i = 1; i < iCmdlen; i++)
+		for (i = 1; i < iCmdlen+1; i++)
 		{
-			buf[i + 3] = buffer[i];
-			checkBit += buf[i + 3];
+			buf[i + 2] = buffer[i];
+			checkBit += buf[i + 2];
 		}
-		buf[i + 3] = checkBit;
+		buf[i + 2] = checkBit;
 	}
 
 	SendBuf(buf, i + 3);
