@@ -29,6 +29,7 @@
     <ClInclude Include="src\dialog\UartDlg.h" />
     <ClInclude Include="src\dialog\Ucom.h" />
     <ClInclude Include="src\dialog\UcomDlg.h" />
+    <ClInclude Include="src\dialog\YouGuCtl.h" />
     <ClInclude Include="src\lib\ChartCtrl\ChartAxis.h" />
     <ClInclude Include="src\lib\ChartCtrl\ChartAxisLabel.h" />
     <ClInclude Include="src\lib\ChartCtrl\ChartBalloonLabel.h" />
@@ -63,6 +64,7 @@
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\targetver.h" />
+    <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\iSocket.cpp" />
@@ -80,6 +82,7 @@
     <ClCompile Include="src\dialog\Ucom.cpp" />
     <ClCompile Include="src\dialog\UcomDlg.cpp" />
     <ClCompile Include="src\dialog\UcomDlgBase.cpp" />
+    <ClCompile Include="src\dialog\YouGuCtl.cpp" />
     <ClCompile Include="src\lib\ChartCtrl\ChartAxis.cpp" />
     <ClCompile Include="src\lib\ChartCtrl\ChartAxisLabel.cpp" />
     <ClCompile Include="src\lib\ChartCtrl\ChartBarSerie.cpp" />

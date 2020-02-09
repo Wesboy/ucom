@@ -16,6 +16,7 @@
 #include "UartDlg.h"
 #include "NetDlg.h"
 #include "CmdCtl.h"
+#include "YouGuCtl.h"
 
 
 //typedef  AsyncSendX* AsyncSendX;
@@ -89,6 +90,7 @@ private:
 	CUartDlg UartDlg;
 	CNetDlg NetDlg;
 	CmdCtl CmdDlg;
+	YouGuCtl YouGuDlg;
 
 	UINT widthEx, heightDlgMin, widthDlgMin;	//收缩扩展区的宽度
 protected:

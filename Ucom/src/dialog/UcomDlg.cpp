@@ -21,6 +21,7 @@ CUcomDlg::CUcomDlg(CWnd* pParent /*=NULL*/)
 , DataRx(), DataTx()
 , MultiSendDlg(this, &uBase)
 , CmdDlg(this, &uBase)
+, YouGuDlg(this, &uBase)
 {
 	//{{AFX_DATA_INIT(CUcomDlg)
 	//}}AFX_DATA_INIT
@@ -622,6 +623,7 @@ void CUcomDlg::InitTabEx(void)
 	pTab->InsertItem(2, "接收监视");
 	pTab->InsertItem(3, "发送助手");
 	pTab->InsertItem(4, "指令控制");
+	pTab->InsertItem(5, "优谷音频");
 
 	GraphDlg.Create(IDD_GRAPH, pTab);
 	pTab->GetClientRect(&rect);
@@ -652,9 +654,15 @@ void CUcomDlg::InitTabEx(void)
 	pTab->GetClientRect(&rect);
 	rect.top += 27;
 	CmdDlg.MoveWindow(&rect);
-	CmdDlg.ShowWindow(true);
+	CmdDlg.ShowWindow(false);
 
-	pTab->SetCurSel(4);
+	YouGuDlg.Create(IDD_YOUGUCTL, pTab);
+	pTab->GetClientRect(&rect);
+	rect.top += 27;
+	YouGuDlg.MoveWindow(&rect);
+	YouGuDlg.ShowWindow(true);
+
+	pTab->SetCurSel(5);
 }
 
 //初始化数据源选项卡
@@ -719,6 +727,7 @@ void CUcomDlg::OnSelchangeTabex(NMHDR *pNMHDR, LRESULT *pResult)
 		DataWatchDlg.ShowWindow(false);
 		MultiSendDlg.ShowWindow(false);
 		CmdDlg.ShowWindow(false);
+		YouGuDlg.ShowWindow(false);
 		break;
 	case 1:
 		GraphDlg.ShowWindow(false);
@@ -726,6 +735,7 @@ void CUcomDlg::OnSelchangeTabex(NMHDR *pNMHDR, LRESULT *pResult)
 		DataWatchDlg.ShowWindow(false);
 		MultiSendDlg.ShowWindow(false);
 		CmdDlg.ShowWindow(false);
+		YouGuDlg.ShowWindow(false);
 		break; 
 	case 2:
 		GraphDlg.ShowWindow(false);
@@ -733,6 +743,7 @@ void CUcomDlg::OnSelchangeTabex(NMHDR *pNMHDR, LRESULT *pResult)
 		DataWatchDlg.ShowWindow(true);
 		MultiSendDlg.ShowWindow(false);
 		CmdDlg.ShowWindow(false);
+		YouGuDlg.ShowWindow(false);
 		break;
 	case 3:
 		GraphDlg.ShowWindow(false);
@@ -740,6 +751,7 @@ void CUcomDlg::OnSelchangeTabex(NMHDR *pNMHDR, LRESULT *pResult)
 		DataWatchDlg.ShowWindow(false);
 		MultiSendDlg.ShowWindow(true);
 		CmdDlg.ShowWindow(false);
+		YouGuDlg.ShowWindow(false);
 		break;
 	case 4:
 		GraphDlg.ShowWindow(false);
@@ -747,6 +759,15 @@ void CUcomDlg::OnSelchangeTabex(NMHDR *pNMHDR, LRESULT *pResult)
 		DataWatchDlg.ShowWindow(false);
 		MultiSendDlg.ShowWindow(false);
 		CmdDlg.ShowWindow(true);
+		YouGuDlg.ShowWindow(false);
+		break;
+	case 5:
+		GraphDlg.ShowWindow(false);
+		EncoderDlg.ShowWindow(false);
+		DataWatchDlg.ShowWindow(false);
+		MultiSendDlg.ShowWindow(false);
+		CmdDlg.ShowWindow(false);
+		YouGuDlg.ShowWindow(true);
 		break;
 	default:
 		break;
